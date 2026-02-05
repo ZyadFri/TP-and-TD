@@ -1,0 +1,102 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.14062' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 134643621
+Trigger: Program termination
+Profiled target:  ./a.out (PID 14062, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                   
+--------------------------------------------------------------------------------
+947,411,064 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                    file:function
+--------------------------------------------------------------------------------
+941,625,870 (99.39%)  exercice4.c:matmul [/home/lenovo/HPC_Lab2/Exercice4/a.out]
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: exercice4.c
+--------------------------------------------------------------------------------
+Ir                   
+
+          .           #include <stdio.h>
+          .           #include <stdlib.h>
+          .           
+          .           #define N 512 // Matrix size
+          .           
+          .           /* ===== Generate noise ===== */
+          1 ( 0.00%)  void generate_noise(double *noise) {
+          5 ( 0.00%)      noise[0] = 1.0;
+      1,534 ( 0.00%)      for (int i = 1; i < N; i++) {
+      1,022 ( 0.00%)          noise[i] = noise[i-1] * 1.0000001;
+          .               }
+          1 ( 0.00%)  }
+          .           
+          .           /* ===== Matrices Initialization ===== */
+  1,310,732 ( 0.14%)  void init_matrix(double *M) {
+    262,154 ( 0.03%)      for (int i = 0; i < N*N; i++) {
+  4,063,232 ( 0.43%)          M[i] = (double)(i % 100) * 0.01;
+          .               }
+          2 ( 0.00%)  }
+          .           
+          .           /* ===== Matrix Multiplication ===== */
+      2,057 ( 0.00%)  void matmul(double *A, double *B, double *C, double *noise) {
+      1,536 ( 0.00%)      for (int i = 0; i < N; i++) {
+  1,049,600 ( 0.11%)          for (int j = 0; j < N; j++) {
+    524,289 ( 0.06%)              double sum = noise[i];
+537,133,056 (56.69%)              for (int k = 0; k < N; k++) {
+402,653,184 (42.50%)                  sum += A[i*N + k] * B[k*N + j];
+          .                       }
+    262,144 ( 0.03%)              C[i*N + j] = sum;
+          .                   }
+          .               }
+          4 ( 0.00%)  }
+          .           
+          7 ( 0.00%)  int main() {
+          3 ( 0.00%)      double *A = malloc(N*N * sizeof(double));
+      1,979 ( 0.00%)  => ???:0x0000000000109080 (1x)
+          3 ( 0.00%)      double *B = malloc(N*N * sizeof(double));
+        312 ( 0.00%)  => ???:0x0000000000109080 (1x)
+          3 ( 0.00%)      double *C = malloc(N*N * sizeof(double));
+        312 ( 0.00%)  => ???:0x0000000000109080 (1x)
+          3 ( 0.00%)      double *noise = malloc(N * sizeof(double));
+        174 ( 0.00%)  => ???:0x0000000000109080 (1x)
+          .           
+          2 ( 0.00%)      generate_noise(noise);
+      2,563 ( 0.00%)  => exercice4.c:generate_noise (1x)
+          2 ( 0.00%)      init_matrix(A);
+  2,818,060 ( 0.30%)  => exercice4.c:init_matrix (1x)
+          2 ( 0.00%)      init_matrix(B);
+  2,818,060 ( 0.30%)  => exercice4.c:init_matrix (1x)
+          .           
+          5 ( 0.00%)      matmul(A, B, C, noise);
+941,625,870 (99.39%)  => exercice4.c:matmul (1x)
+          .           
+          .               printf("C[0] = %f\n", C[0]);
+          .           
+          2 ( 0.00%)      free(A);
+         74 ( 0.00%)  => ???:0x0000000000109070 (1x)
+          2 ( 0.00%)      free(B);
+         74 ( 0.00%)  => ???:0x0000000000109070 (1x)
+          2 ( 0.00%)      free(C);
+         74 ( 0.00%)  => ???:0x0000000000109070 (1x)
+          2 ( 0.00%)      free(noise);
+        170 ( 0.00%)  => ???:0x0000000000109070 (1x)
+          .               return 0;
+          7 ( 0.00%)  }
+--------------------------------------------------------------------------------
+Ir                   
+--------------------------------------------------------------------------------
+947,264,598 (99.98%)  events annotated
+
